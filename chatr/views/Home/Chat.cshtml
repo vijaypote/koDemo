@@ -81,9 +81,42 @@
         var reply = replyMessage || $("#reply-box").val();
 
         if (reply != "" && reply != null) {
-            var id = $("#replyId").val();
-            var parentid = $("#replyParentId").val();
-            var nestlevel = $("#replyNestLevel").val();
+            var id, parentid, nestlevel;
+
+            // get the reply here
+            try {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "Home/Chat",// sending it to controller
+                    data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }),
+                    cache: false,
+                    dataType: "text",
+                    success: function (data) {
+                        //alert(data);
+                        //$("#replyId").val("2");
+                        //$("#replyParentId").val("1");
+                        //$("#replyNestLevel").val("1");
+
+                        id = 2;
+                        //alert(id);
+                        parentid = 1;
+                        //alert(parentid);
+                        nestlevel = 1;
+                        //alert(nestlevel);
+                    }
+                });
+            }
+            catch (e) {
+                alert(e.message);
+            }
+
+            //var id = $("#replyId").val();
+            alert(id);
+            //var parentid = $("#replyParentId").val();
+            alert(parentid);
+            //var nestlevel = $("#replyNestLevel").val();
+            alert(nestlevel);
 
             var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, reply);          
             

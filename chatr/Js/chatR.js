@@ -28,23 +28,23 @@ chatR.chatMessage = function (id, parentid, nestlevel, sender, content, dateSent
     self.newMessage = ko.observable("");
     self.replyToMessage = function () {
 
-        // get the reply here
-        try {
-            $.ajax({
-                type: "POST",
-                url: "Home/Chat",// sending it to controller
-                data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }), // will only pass the required data so that it knows for which message it should be hooked
-                cache: false,
-                dataType: "text",
-                success: function (data) {
-                    //alert(data); // data will be returend from the Home controller / Chat method
-                    $("#replyId").val("2");
-                    $("#replyParentId").val("1");
-                    $("#replyNestLevel").val("1");
-                }
-            });
-        }
-        catch (e) { }
+        //// get the reply here
+        //try {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "Home/Chat",// sending it to controller
+        //        data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }), // will only pass the required data so that it knows for which message it should be hooked
+        //        cache: false,
+        //        dataType: "text",
+        //        success: function (data) {
+        //            //alert(data); // data will be returend from the Home controller / Chat method
+        //            $("#replyId").val("2");
+        //            $("#replyParentId").val("1");
+        //            $("#replyNestLevel").val("1");
+        //        }
+        //    });
+        //}
+        //catch (e) { }
 
         replyMessageCallback(self.newMessage());
     }
