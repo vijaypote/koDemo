@@ -91,19 +91,11 @@
                     url: "Home/Chat",// sending it to controller
                     data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }),
                     cache: false,
-                    dataType: "text",
+                    dataType: "json",
                     success: function (data) {
-                        //alert(data);
-                        //$("#replyId").val("2");
-                        //$("#replyParentId").val("1");
-                        //$("#replyNestLevel").val("1");
-
-                        id = 2;
-                        //alert(id);
-                        parentid = 1;
-                        //alert(parentid);
-                        nestlevel = 1;
-                        //alert(nestlevel);
+                        id = data.reply.ReplyId;
+                        parentid = data.reply.ReplyParentId;
+                        nestlevel = data.reply.ReplyNestLevel;
                     }
                 });
             }
@@ -111,11 +103,9 @@
                 alert(e.message);
             }
 
-            //var id = $("#replyId").val();
+
             alert(id);
-            //var parentid = $("#replyParentId").val();
             alert(parentid);
-            //var nestlevel = $("#replyNestLevel").val();
             alert(nestlevel);
 
             var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, reply);          

@@ -49,18 +49,12 @@ namespace ChatR.Controllers
         /// <returns></returns>
         public object Chat(int replyId, int replyParentId, int replyNestLevel)
         {
-            //int replyId, int replyParentId, int replyNestLevel - will use this to get the parent id / reply id so that message can be placed in right block
-
-            // will call db here or will generate id here
-
             ReplyEntity reply = new ReplyEntity();
             reply.ReplyId = replyId;
             reply.ReplyParentId = replyParentId;
             reply.ReplyNestLevel = replyNestLevel;
 
-
-            return new { URL = reply };
-
+            return Json(new { reply });
         }
     }
 }
