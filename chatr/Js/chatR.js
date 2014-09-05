@@ -22,8 +22,11 @@ chatR.chatMessage = function (id, parentid, nestlevel, sender, content, dateSent
         self.timestamp = dateSent;
     }
     
+    self.replyId = id;
+    self.replyParentId = parentid;
+    self.replyNestLevel = nestlevel;
     self.newMessage = ko.observable("");
-    self.replyToMessage = function() {        
+    self.replyToMessage = function () {
         replyMessageCallback(self.newMessage());
     }
     return self;

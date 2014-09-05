@@ -52,9 +52,9 @@
                     <div class="chat-listitem-message" data-bind="html: content"></div>                
                     <div class="chat-listitem-timestamp" data-bind="text: timestamp.toLocaleTimeString()"></div>
                     <div>
-                        <input type="hidden" id="replyid" value="2" />
-                        <input type="hidden" id="replyparentid" value="1" />
-                        <input type="hidden" id="replynestlevel" value="1" /> 
+                        <input type="hidden" id="replyId" data-bind="value:replyId" />
+                        <input type="hidden" id="replyParentId" data-bind="value:replyParentId" />
+                        <input type="hidden" id="replyNestLevel" data-bind="value:replyNestLevel" /> 
 
                         <input type="text" name="newMessage" data-bind="value:newMessage" placeholder="Reply here..." />
                         <button class="btn btn-small" data-bind="click: replyToMessage">Reply</button>
@@ -81,9 +81,32 @@
         var reply = replyMessage || $("#reply-box").val();
 
         if (reply != "" && reply != null) {
-            var id = $("#replyid").val();
-            var parentid = $("#replyparentid").val();
-            var nestlevel = $("#replynestlevel").val();
+            var id, parentid, nestlevel;
+
+            // get the reply here
+            try {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "Home/Chat",// sending it to controller
+                    data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }),
+                    cache: false,
+                    dataType: "json",
+                    success: function (data) {
+                        id = data.reply.ReplyId;
+                        parentid = data.reply.ReplyParentId;
+                        nestlevel = data.reply.ReplyNestLevel;
+                    }
+                });
+            }
+            catch (e) {
+                alert(e.message);
+            }
+
+
+            alert(id);
+            alert(parentid);
+            alert(nestlevel);
 
             var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, reply);          
             
