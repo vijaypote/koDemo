@@ -73,11 +73,7 @@ namespace ChatR.Hubs
                     message.Content = TextParser.TransformAndExtractUrls(message.Content, out extractedURLs);
                     message.Timestamp = DateTime.Now;
                 }
-
-                //===========================================================================================
-                // next message
-                //===========================================================================================
-                if (message.ParentId == 1)
+                else
                 {
                     ChatMessage Chatmessage = new ChatMessage();
 
@@ -88,26 +84,42 @@ namespace ChatR.Hubs
                     Chatmessage.Content = TextParser.TransformAndExtractUrls(message.Content, out extractedURLs);
                     Chatmessage.Timestamp = DateTime.Now;
 
-                    message.Chatmessage = Chatmessage;
+                    message.RelatedMessage = Chatmessage;
                 }
+                ////===========================================================================================
+                //// next message
+                ////===========================================================================================
+                //if (message.ParentId == 1)
+                //{
+                //    ChatMessage Chatmessage = new ChatMessage();
 
-                //===========================================================================================
-                // inner message
-                //===========================================================================================
-                if (message.ParentId == 2)
-                {
+                //    Chatmessage.Id = message.Id;
+                //    Chatmessage.ParentId = message.ParentId;
+                //    Chatmessage.NestLevel = message.NestLevel;
+                //    Chatmessage.Content = HttpUtility.HtmlEncode(message.Content);
+                //    Chatmessage.Content = TextParser.TransformAndExtractUrls(message.Content, out extractedURLs);
+                //    Chatmessage.Timestamp = DateTime.Now;
 
-                    ChatMessage Chatmessage = new ChatMessage();
+                //    message.RelatedMessage = Chatmessage;
+                //}
 
-                    Chatmessage.Chatmessage.Id = message.Id;
-                    Chatmessage.Chatmessage.ParentId = message.ParentId;
-                    Chatmessage.Chatmessage.NestLevel = message.NestLevel;
-                    Chatmessage.Chatmessage.Content = HttpUtility.HtmlEncode(message.Content);
-                    Chatmessage.Chatmessage.Content = TextParser.TransformAndExtractUrls(message.Content, out extractedURLs);
-                    Chatmessage.Chatmessage.Timestamp = DateTime.Now;
+                ////===========================================================================================
+                //// inner message
+                ////===========================================================================================
+                //if (message.ParentId == 2)
+                //{
 
-                    message.Chatmessage.Chatmessage = Chatmessage;
-                }
+                //    ChatMessage Chatmessage = new ChatMessage();
+
+                //    Chatmessage.Id = message.Id;
+                //    Chatmessage.ParentId = message.RelatedMessage.ParentId;
+                //    Chatmessage.NestLevel = message.NestLevel;
+                //    Chatmessage.Content = HttpUtility.HtmlEncode(message.Content);
+                //    Chatmessage.Content = TextParser.TransformAndExtractUrls(message.Content, out extractedURLs);
+                //    Chatmessage.Timestamp = DateTime.Now;
+
+                //    message.RelatedMessage.RelatedMessage = Chatmessage;
+                //}
 
                 Clients.All.onMessageReceived(message);
             }
