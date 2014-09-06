@@ -14,14 +14,13 @@ chatR.chatMessage = function (id, parentid, nestlevel, sender, content, dateSent
     var self = this;
     //alert(parentid);
     self.id = id;
-    self.parentid = parentid;
-    self.nestlevel = nestlevel;
+    self.parentId = parentid;
+    self.nestLevel = nestlevel;
     self.username = sender;
     self.content = content;
     if (dateSent != null) {
         self.timestamp = dateSent;
     }
-    
     self.replyId = id;
     self.replyParentId = parentid;
     self.replyNestLevel = nestlevel;
