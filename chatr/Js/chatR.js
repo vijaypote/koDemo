@@ -28,12 +28,16 @@ chatR.chatMessage = function (id, parentid, nestlevel, sender, content, dateSent
     //self.replyNestLevel = nestlevel;
 
     self.newMessage = ko.observable("");
-    self.replySent = ko.observable(false);
+    self.doReply = ko.observable(false);
+    self.replyNow = function () {
+        self.doReply(true);
+    };
+
     self.replyToMessage = function () {
 
         var msg = { parentId: self.id, username: self.username, content: self.newMessage() };
         self.chatMessageSender(msg);
-        //self.replySent(true);
+        self.doReply(false);
         self.newMessage('');
     }
     self.replies = ko.observableArray([]);
@@ -91,22 +95,24 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
 
     self.findParentMessage = function (parentId, message) {
 
-        console.log(message.replies().length);
-        console.log(message);
+        //console.log(message.replies().length);
+        //console.log(message);
 
         if (parentId == message.id) {
             return message;
         }
         else {
+            var parentMessage = null;
             for (var k = 0; k < message.replies().length; k++) {
-                //if (parentId == message.replies()[k].id) {
-                //    return message.replies()[k]
-                //};
-                var childMsg = self.findParentMessage(parentId, message.replies()[k]);
-                if (childMsg != null) {
-                    return childMsg;
+                parentMessage = self.findParentMessage(parentId, message.replies()[k]);
+                if (parentMessage != null) {
+                    break;
                 }
             }
+            if (parentMessage != null) {
+                return parentMessage;
+            }
+            
         }
 
         //for (var k = 0; k < message.replies().length; k++) {
