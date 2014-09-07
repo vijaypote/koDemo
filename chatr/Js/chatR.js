@@ -85,17 +85,8 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
             if (parentMessage != null) {
                 parentMessage.replies.push(newMessage);
                 break;
-            } else {
-                for (var k = 0; k < self.messages().replies().length; k++) {
-                    parentMessage = self.findParentMessage(parentId, message.replies()[k]);
-                    if (parentMessage != null) {
-                        parentMessage.replies.push(newMessage);
-                        break;
-                    }
-                }
-            }
+            } 
         }
-
     };
 
     self.findParentMessage = function (parentId, message) {
@@ -111,7 +102,10 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
                 //if (parentId == message.replies()[k].id) {
                 //    return message.replies()[k]
                 //};
-                return self.findParentMessage(parentId, message.replies()[k]);
+                var childMsg = self.findParentMessage(parentId, message.replies()[k]);
+                if (childMsg != null) {
+                    return childMsg;
+                }
             }
         }
 
