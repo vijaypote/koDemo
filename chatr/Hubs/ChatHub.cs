@@ -129,6 +129,7 @@ namespace ChatR.Hubs
                 ////}
                 #endregion
 
+                //Clients.Others.onMessageReceived(message);
                 Clients.All.onMessageReceived(message);
             }
         }

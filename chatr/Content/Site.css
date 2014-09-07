@@ -46,20 +46,7 @@ h2
 	font-weight: lighter;
 }
 
-ul 
-{
-    list-style: none;
-    list-style-image: none;
-    margin:0px;
-    padding:0px;
-}
 
-li {
-	float:left;
-	display:inline;
-	/*margin-left: -25px;	*/
-	padding-bottom: 5px;
-}
 
 #myContainer 
 {   
@@ -123,25 +110,6 @@ input, button
     border-radius: 2px;     
 }
 
-#chat-list div 
-{
-    float:left;
-}
-
-#chat-list ul {
-	list-style: none;				
-}
-
-#chat-list ul li 
-{
-    float:left;
-	display:inline;
-	/*margin-left: -25px;*/
-	border-bottom: 1px solid #F2F2F2;
-	width:100%;
-	height:100%;
-	padding-bottom:0px;
-}
 
 .chat-listitem-username 
 {
