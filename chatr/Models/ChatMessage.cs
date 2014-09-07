@@ -35,6 +35,6 @@ namespace ChatR.Models
         /// </summary>
         public DateTime Timestamp { get; set; }
 
-        public ChatMessage RelatedMessage;
+        public IEnumerable<ChatMessage> RelatedMessage { get; set; }
     }    
 }

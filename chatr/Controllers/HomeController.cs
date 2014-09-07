@@ -47,14 +47,14 @@ namespace ChatR.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public object Chat(int replyId, int replyParentId, int replyNestLevel)
-        {
-            ReplyEntity reply = new ReplyEntity();
-            reply.ReplyId = replyId;
-            reply.ReplyParentId = replyParentId;
-            reply.ReplyNestLevel = replyNestLevel;
+        //public object Chat(int? replyId, int? replyParentId, int? replyNestLevel)
+        //{
+        //    ReplyEntity reply = new ReplyEntity();
+        //    reply.ReplyId = replyId;
+        //    reply.ReplyParentId = replyParentId;
+        //    reply.ReplyNestLevel = replyNestLevel;
 
-            return Json(new { reply });
-        }
+        //    return Json(new { reply });
+        //}
     }
 }

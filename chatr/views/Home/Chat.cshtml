@@ -1,5 +1,4 @@
-﻿
-<!--[if gte IE 9]>
+﻿<!--[if gte IE 9]>
   <style type="text/css">
     .gradient {
        filter: none;
@@ -8,13 +7,13 @@
 <![endif]-->
 
 <style>
-    body 
-    {
+    body {
         background-color: #E6E6E6;
     }
 </style>
 
-@if (false) { 
+@if (false)
+{
     <script src="../../Scripts/jquery-1.7.2-vsdoc.js" type="text/javascript"></script>
 }
 
@@ -22,104 +21,61 @@
     <h2>ChatR</h2>
 </div>
 
-<div id="myContainer" class="container-fluid">  
+<div id="myContainer" class="container-fluid">
     <div id="compose" class="row-fluid">
         <div class="span2"></div>
         <div class="span8">
             <div class="row-fluid">
                 <input type="hidden" id="id" value="1" />
-                <input type="hidden" id="parentid" value="0" />
-                <input type="hidden" id="nestlevel" value="0" />
+                <input type="hidden" id="parentId" value="0" />
+                <input type="hidden" id="nestLevel" value="0" />
 
                 <div class="span10"><textarea id="compose-box" rows="2" cols="50" placeholder="Type your message here"></textarea></div>
                 <div class="span2"><button id="send-btn" type="submit" class="btn btn-large btn-primary">Send</button>   </div>
             </div>
         </div>
-    </div>  
+    </div>
     <div class="row-fluid">
-        <!-- This  is the contact box -->        
+        <!-- This  is the contact box -->
         <div id="users-list" class="span2">
-            <h4>Users</h4> 
+            <h4>Users</h4>
             <ul data-bind="foreach: contacts">
                 <li class="user-box"><span class="user-box-name" data-bind="text: username"></span></li>
             </ul>
         </div>
         <!-- This  is the chat box -->
-        <div id="chat-list" class="span8" data-bind="foreach: messages">
-            <ul>
-                <li>
-                    <div class="chat-listitem-username" data-bind="text: username"></div>                
-                    <div class="chat-listitem-message" data-bind="html: content"></div>                
-                    <div class="chat-listitem-timestamp" data-bind="text: timestamp.toLocaleTimeString()"></div>
-                    <div>
-                        <input type="hidden" id="replyId" data-bind="value:replyId" />
-                        <input type="hidden" id="replyParentId" data-bind="value:replyParentId" />
-                        <input type="hidden" id="replyNestLevel" data-bind="value:replyNestLevel" /> 
-
-                        <input type="text" name="newMessage" data-bind="value:newMessage" placeholder="Reply here..." />
-                        <button class="btn btn-small" data-bind="click: replyToMessage">Reply</button>
-                    </div>
-                </li>
-            </ul>
+        <div id="chat-list" class="span8">
+            <ul data-bind="template: { name: 'message-template', foreach: messages,as: 'message' }"> </ul>
         </div>
-    </div>   
+    </div>
 </div>
 
-<script type="text/javascript" src="@Url.Content("/signalr/hubs")"></script>  
+<script type="text/javascript" src="@Url.Content("/signalr/hubs")"></script>
 <script type="text/javascript" src="@Url.Content("~/Js/chatR.js")"></script>
+<script type="text/html" id="message-template">
+    <!-- This  is the chat box -->
+    <li>
+        <div class="chat-listitem-username" data-bind="text: username"></div>
+        <div class="chat-listitem-message" data-bind="html: content"></div>
+        <div class="chat-listitem-timestamp" data-bind="text: timestamp.toLocaleTimeString()"></div>
+        <div>
+            <span id="replyNestLevel" data-bind="text:replyNestLevel" />
+            <input type="text" id="newMessage" data-bind="value:newMessage" placeholder="Reply here..." />
+            <button class="btn btn-small" data-bind="click: replyToMessage">Reply</button>
+
+            <div data-bind="if:replies().length > 0">
+                <ul class="span8" data-bind="template: { name: 'message-template', foreach: replies,as: 'message' }"></ul>
+            </div>
+        </div>
+
+    </li>
+
+</script>
+
 <script type="text/javascript">
 
 
-    function callAjax(replyMessage)
-    {
-        alert(replyMessage);
-        var chatHub = $.connection.chatHub; // chatHub is the name of the Hub as declared in server side code
-
-        var chat = new chatR.chatViewModel();
-        var users = new chatR.connectedUsersViewModel();
-        var currentUser = new chatR.user(@Html.Raw(Json.Encode(Model)));
-        var reply = replyMessage || $("#reply-box").val();
-
-        if (reply != "" && reply != null) {
-            var id, parentid, nestlevel;
-
-            // get the reply here
-            try {
-                $.ajax({
-                    type: "POST",
-                    async: false,
-                    url: "Home/Chat",// sending it to controller
-                    data: ({ replyId: 2, replyParentId: 1, replyNestLevel: 1 }),
-                    cache: false,
-                    dataType: "json",
-                    success: function (data) {
-                        id = data.reply.ReplyId;
-                        parentid = data.reply.ReplyParentId;
-                        nestlevel = data.reply.ReplyNestLevel;
-                    }
-                });
-            }
-            catch (e) {
-                alert(e.message);
-            }
-
-
-            alert(id);
-            alert(parentid);
-            alert(nestlevel);
-
-            var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, reply);          
-            
-            chatHub.server.send(msg).done(function () {
-                $("#reply-box").val("");
-                //$("#reply-box").attr("disabled", "disabled");
-            }).fail(function (e) {
-                alert("Could not connect to server");
-            });
-        }
-    }   
-
-    Date.prototype.setISO8601 = function(dString){
+    Date.prototype.setISO8601 = function (dString) {
 
         var regexp = /(\d\d\d\d)(-)?(\d\d)(-)?(\d\d)(T)?(\d\d)(:)?(\d\d)(:)?(\d\d)(\.\d+)?(Z|([+-])(\d\d)(:)?(\d\d))/;
 
@@ -128,18 +84,18 @@
             var offset = 0;
 
             this.setUTCDate(1);
-            this.setUTCFullYear(parseInt(d[1],10));
-            this.setUTCMonth(parseInt(d[3],10) - 1);
-            this.setUTCDate(parseInt(d[5],10));
-            this.setUTCHours(parseInt(d[7],10));
-            this.setUTCMinutes(parseInt(d[9],10));
-            this.setUTCSeconds(parseInt(d[11],10));
+            this.setUTCFullYear(parseInt(d[1], 10));
+            this.setUTCMonth(parseInt(d[3], 10) - 1);
+            this.setUTCDate(parseInt(d[5], 10));
+            this.setUTCHours(parseInt(d[7], 10));
+            this.setUTCMinutes(parseInt(d[9], 10));
+            this.setUTCSeconds(parseInt(d[11], 10));
             if (d[12])
                 this.setUTCMilliseconds(parseFloat(d[12]) * 1000);
             else
                 this.setUTCMilliseconds(0);
             if (d[13] != 'Z') {
-                offset = (d[15] * 60) + parseInt(d[17],10);
+                offset = (d[15] * 60) + parseInt(d[17], 10);
                 offset *= ((d[14] == '-') ? -1 : 1);
                 this.setTime(this.getTime() - offset * 60 * 1000);
             }
@@ -151,15 +107,38 @@
     };
 
     $(document).ready(function () {
-
-        $('.reply').on(function() {
-            callAjax();
-        });
-
-        //alert("hello");
+        var chatHub = $.connection.chatHub; // chatHub is the name of the Hub as declared in server side code
         var chat = new chatR.chatViewModel();
+        //alert(chat);
         var users = new chatR.connectedUsersViewModel();
         var currentUser = new chatR.user(@Html.Raw(Json.Encode(Model))); // The username chose by the user is stored in the model
+
+        function callAjax(replyMessage, mId) {
+            var reply = replyMessage || $("#newMessage").val();
+
+            if (reply != "" && reply != null) {
+
+                var id, parentid, nestlevel;
+
+                id = ($('#replyId').val() == "" ? 0 : $('#replyId').val());
+                parentid = mId || (($('#replyParentId').val() == "" ? 0 : $('#replyParentId').val()));
+                nestlevel = ($('#replyNestLevel').val() == "" ? 0 : $('#replyNestLevel').val());
+
+                var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, reply);
+
+                chatHub.server.send(msg).done(function () {
+                    //alert($('#newMessage').val());
+                    //$('#newMessage').val("");
+
+                }).fail(function (e) {
+                    alert("Could not connect to server");
+                });
+            }
+        }
+
+        $('.reply').on(function () {
+            callAjax();
+        });
 
         // Proxy creation
         var chatHub = $.connection.chatHub; // chatHub is the name of the Hub as declared in server side code
@@ -169,11 +148,21 @@
         chatHub.client.onMessageReceived = function (message) {
             var date = new Date();
             date.setISO8601(message.Timestamp);
-            //alert(message.Replyhtml);
-            chat.messages.push(new chatR.chatMessage(message.id, message.parentid, message.nestlevel, message.Username, message.Content, date, callAjax));//new Date(message.Timestamp)));
+            //alert(message.Content);
+            sessionStorage.setItem("Message", message);
+            if (message.ParentId == undefined || message.ParentId == 0) {
+                chat.messages.push(new chatR.chatMessage(message.Id, message.ParentId, message.NestLevel, message.Username, message.Content, date, callAjax));//new Date(message.Timestamp)));
+            } else {
+                chat.addReply(new chatR.chatMessage(message.Id, message.ParentId, message.NestLevel, message.Username, message.Content, date, callAjax));
+            }
+
             $("#chat-list").scrollTo('max');
+
+
+            var jsonData = ko.toJSON(message);
+            //alert(jsonData);
         }
-        
+
         chatHub.client.leaves = function (userId, username, timestamp) {
             var disconnectedUser = new chatR.user(username, userId);
             users.customRemove(disconnectedUser);
@@ -185,14 +174,16 @@
         }
 
         function sendMessageContent() {
-            
+
             var content = $("#compose-box").val();
             var id = $("#id").val();
-            var parentid = $("#parentid").val();
-            var nestlevel = $("#nestlevel").val();
-            //alert(parentid);
+            var parentid = $("#parentId").val();
+            var nestlevel = $("#nestLevel").val();
+
             if (content != "" && content != null) {
+
                 var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username, content);
+
                 chatHub.server.send(msg).done(function () {
                     $("#compose-box").val("");
                 }).fail(function (e) {
@@ -204,11 +195,6 @@
         $("#send-btn").click(function () {
             sendMessageContent();
         });
-
-        //$("#reply-btn").click(function () {
-        //    alert("Reply");
-        //    sendMessageContent();
-        //});
 
         // Handles Enter keystroke press event
         $('#compose-box').keypress(function (e) {
@@ -231,6 +217,6 @@
                                         chatHub.server.joined();
                                     });
                     });
-    }); 
+    });
 
 </script>
