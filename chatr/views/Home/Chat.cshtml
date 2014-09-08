@@ -46,6 +46,7 @@
             color: #369;
             position: relative;
             margin-left: 15px;
+            display: inline-block;
         }
 
         ul.tree ul li:before {
@@ -79,8 +80,8 @@
         border-top: 1px solid #D8D8D8;
         overflow-y: auto;
         overflow-x:auto;
-        height: 720px;
-        min-height: 720px;
+        height: 700px;
+        min-height: 700px;
     }
 
     #users-list {
@@ -98,7 +99,7 @@
         padding-right: 0;
     }
 
-    .tsc_clear {
+    .chatR_clear {
         clear: both;
         padding: 0;
         margin: 0;
@@ -107,18 +108,18 @@
         line-height: 0px;
     }
 
-    .tsc_clean_comment {
+    .chatR_clean_comment {
         margin-bottom: 16px;
         width: 700px;
     }
 
-        .tsc_clean_comment .avatar_box {
+        .chatR_clean_comment .avatar_box {
             float: left;
             width: 80px;
             
         }
 
-        .tsc_clean_comment .avatar {
+        .chatR_clean_comment .avatar {
             background: #fff;
             padding: 4px;
             border: 1px solid #d8d8d8;
@@ -126,13 +127,13 @@
             position: relative;
         }
 
-        .tsc_clean_comment .username {
+        .chatR_clean_comment .username {
             color: #383838;
             font-weight: bold;
             clear: left;
         }
 
-        .tsc_clean_comment .comment_box {
+        .chatR_clean_comment .comment_box {
             float: right;
             padding-bottom: 8px;
             width: 600px;
@@ -143,7 +144,7 @@
             margin-bottom:20px;
         }
 
-            .tsc_clean_comment .comment_box:before {
+            .chatR_clean_comment .comment_box:before {
                 content: '';
                 width: 13px;
                 height: 13px;
@@ -160,18 +161,18 @@
                 -o-transform: rotate(45deg);
             }
 
-        .tsc_clean_comment .comment_paragraph {
+        .chatR_clean_comment .comment_paragraph {
             color: #454545;
             line-height: 14px;
             margin: 4px 10px 0 15px;
             padding-bottom:20px;
         }
 
-            .tsc_clean_comment .comment_paragraph:focus {
+            .chatR_clean_comment .comment_paragraph:focus {
                 outline: none;
             }
 
-        .tsc_clean_comment .reply {
+        .chatR_clean_comment .reply {
             font-size: 0.85em;
             color: #b7b7b7;
             margin-left: 23px;
@@ -181,7 +182,7 @@
             padding-bottom: 10px;
         }
 
-            .tsc_clean_comment .reply:before {
+            .chatR_clean_comment .reply:before {
                 content: url(../content/images/bubble.png);
                 width: 13px;
                 height: 11px;
@@ -190,7 +191,7 @@
                 top: 2px;
             }
 
-        .tsc_clean_comment .date {
+        .chatR_clean_comment .date {
             float: right;
             font-size: 0.85em;
             color: #454545;
@@ -242,13 +243,19 @@
 <script type="text/javascript" src="@Url.Content("~/Js/chatR.js")"></script>
 <script type="text/html" id="message-template">
     <!-- This  is the chat box -->
-    <li>
-        <div class="row-fluid tsc_clean_comment">
+    <li class="chats">
+        <div class="row chatR_clean_comment">
+            
+          
+
             <div class="avatar_box">
                 <img alt="Avatar" src="../Content/images/user.gif" class="avatar" />
                 <p class="username" data-bind="text: username"></p>
             </div>
             <div class="comment_box fr">
+                <div style="float:right;color:rgba(221, 220, 220, 0.91); padding-left:5px; cursor:pointer;" data-bind="if:replies().length > 0">
+                    <span class="expand glyphicon glyphicon-minus-sign"></span>
+                </div>
                 <p class="comment_paragraph" contenteditable="true" data-bind="html: content"></p>
                 <a href="#" class="reply" data-bind="click:replyNow">Reply</a> <span class="date" data-bind="text: timestamp.toLocaleTimeString()"></span>
 
@@ -264,9 +271,9 @@
                 </div>
 
             </div>
-            <div data-bind="if:replies().length > 0">
-                <ul data-bind="template: { name: 'message-template', foreach: replies,as: 'message' }"></ul>
-            </div>
+        </div>
+        <div data-bind="if:replies().length > 0" class="row-fluid">
+            <ul data-bind="template: { name: 'message-template', foreach: replies,as: 'message' }"></ul>
         </div>
     </li>
 </script>
@@ -318,6 +325,12 @@
             });
         }
     }
+
+
+    $("#chat-list ul").on("click", "li div .expand", function () {
+        $(this).parent('div').parent('div').parent('div').next().slideToggle();
+        $(this).toggleClass('glyphicon-plus-sign glyphicon-minus-sign');
+    });
 
     $(document).ready(function () {
         var chatHub = $.connection.chatHub; // chatHub is the name of the Hub as declared in server side code

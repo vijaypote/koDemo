@@ -27,6 +27,7 @@ chatR.chatMessage = function (id, parentid, sender, content, dateSent, chatMessa
     self.doReply = ko.observable(false);
     self.replyNow = function () {
         self.doReply(true);
+        //console.log('Replyt now');
     };
 
     self.replyToMessage = function () {
