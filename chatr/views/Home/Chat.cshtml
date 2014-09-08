@@ -46,6 +46,7 @@
             color: #369;
             position: relative;
             margin-left: 15px;
+            display: inline-block;
         }
 
         ul.tree ul li:before {
@@ -241,8 +242,8 @@
 <script type="text/javascript" src="@Url.Content("~/Js/chatR.js")"></script>
 <script type="text/html" id="message-template">
     <!-- This  is the chat box -->
-    <li>
-        <div class="row-fluid tsc_clean_comment">
+    <li class="chats">
+        <div class="row tsc_clean_comment">
             <div class="avatar_box">
                 <img alt="Avatar" src="../Content/images/user.gif" class="avatar" />
                 <p class="username" data-bind="text: username"></p>
@@ -251,7 +252,7 @@
                 <p class="comment_paragraph" contenteditable="true" data-bind="html: content"></p>
                 <a href="#" class="reply" data-bind="click:replyNow">Reply</a> <span class="date" data-bind="text: timestamp.toLocaleTimeString()"></span>
 
-                <div data-bind="visible:doReply()">
+                <div data-bind="visible:doReply()" class="row-fluid">
                     <div class="input-group input-group-sm" style="max-width:350px;">
                         <input type="text" class="form-control" id="newMessage" data-bind="value:newMessage" placeholder="Reply here..." />
                         <span class="input-group-btn">
@@ -263,9 +264,11 @@
                 </div>
 
             </div>
-            <div data-bind="if:replies().length > 0">
-                <ul data-bind="template: { name: 'message-template', foreach: replies,as: 'message' }"></ul>
-            </div>
+           
+        </div>
+        <div data-bind="if:replies().length > 0" class="row-fluid">
+
+            <ul data-bind="template: { name: 'message-template', foreach: replies,as: 'message' }"></ul>
         </div>
     </li>
 </script>
@@ -317,6 +320,11 @@
             });
         }
     }
+
+
+    $("#chat-list ul").on("click", "li div", function () {
+        //$(this).next().slideToggle();
+    });
 
     $(document).ready(function () {
         var chatHub = $.connection.chatHub; // chatHub is the name of the Hub as declared in server side code
