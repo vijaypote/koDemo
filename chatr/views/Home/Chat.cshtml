@@ -68,9 +68,9 @@
     #myContainer {
         margin-top: 20px;
         height: 800px;
-        width: 1200px;
-        border: 1px solid #aaa;
+        border: 1px solid rgba(228, 226, 226, 0.90);
         border-radius: 5px;
+        box-shadow: 7px 7px 16px -5px rgba(77,74,77,0.69);
     }
 
     #chat-list {
@@ -79,9 +79,21 @@
         padding-right: 20px;
         border-top: 1px solid #D8D8D8;
         overflow-y: auto;
-        overflow-x:auto;
+        overflow-x: auto;
         height: 700px;
         min-height: 700px;
+    }
+
+
+    #userHeader {
+        background: #428bca;
+        color: #FFF;
+        font-weight: bold;
+        height: 50px;
+        margin-top: 0px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-bottom: 10px;
     }
 
     #users-list {
@@ -116,7 +128,6 @@
         .chatR_clean_comment .avatar_box {
             float: left;
             width: 80px;
-            
         }
 
         .chatR_clean_comment .avatar {
@@ -141,7 +152,7 @@
             background: #fff;
             border: 1px solid #d8d8d8;
             position: relative;
-            margin-bottom:20px;
+            margin-bottom: 20px;
         }
 
             .chatR_clean_comment .comment_box:before {
@@ -165,7 +176,7 @@
             color: #454545;
             line-height: 14px;
             margin: 4px 10px 0 15px;
-            padding-bottom:20px;
+            padding-bottom: 20px;
         }
 
             .chatR_clean_comment .comment_paragraph:focus {
@@ -209,31 +220,34 @@
     <h2>ChatR</h2>
 </div>
 
-<div id="myContainer" class="container-fluid">
+<div class="col-md-8 col-md-offset-2">
+    <div id="myContainer" class="container-fluid">
 
-    <div class="col-md-2 padding-right-0">
-        <!-- This  is the contact box -->
-        <div id="users-list">
-            <h4>Users</h4>
-            <ul class="tree" data-bind="foreach: usersModel.contacts">
-                <li><span class="user-box-name" data-bind="text: username"></span></li>
-            </ul>
-        </div>
-    </div>
+        <div class="col-md-2 padding-right-0  padding-left-0 ">
 
-    <div class="col-md-10 padding-left-0 padding-right-0">
-        <div id="compose" class="row">
-            <div class="col-md-12">
-                <div class="row-fluid">
-                    <div class="col-md-10"><textarea id="compose-box" rows="2" cols="50" placeholder="Type your message here" data-bind="value:parentMessage"></textarea></div>
-                    <div class="col-md-2"><button id="send-btn" type="button" data-bind="click:sendMessage" class="btn btn-large btn-primary">Send</button>   </div>
+            <!-- This  is the contact box -->
+            <div id="users-list">
+                <div id="userHeader">Users</div>
+                <div data-bind="foreach: usersModel.contacts">
+                        <div class="col-md-2" style="height:47px; width:100%; padding-top:10px; border-bottom:1px solid #c3c3c3;" data-bind="text: username"></div>
                 </div>
             </div>
         </div>
 
-        <!-- This  is the chat box -->
-        <div id="chat-list">
-            <ul class="tree" data-bind="template: { name: 'message-template', foreach: messages,as: 'message' }"> </ul>
+        <div class="col-md-10 padding-left-0 padding-right-0">
+            <div id="compose" class="row">
+                <div class="col-md-12">
+                    <div class="row-fluid">
+                        <div class="col-md-10"><textarea id="compose-box" rows="2" cols="50" placeholder="Type your message here" data-bind="value:parentMessage"></textarea></div>
+                        <div class="col-md-2"><button id="send-btn" type="button" data-bind="click:sendMessage" class="btn btn-large btn-primary">Send</button>   </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This  is the chat box -->
+            <div id="chat-list">
+                <ul class="tree" data-bind="template: { name: 'message-template', foreach: messages,as: 'message' }"> </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -244,8 +258,8 @@
     <!-- This  is the chat box -->
     <li class="chats">
         <div class="row chatR_clean_comment">
-            
-          
+
+
 
             <div class="avatar_box">
                 <img alt="Avatar" src="../Content/images/user.gif" class="avatar" />
