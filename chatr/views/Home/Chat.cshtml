@@ -252,11 +252,11 @@
                 <p class="username" data-bind="text: username"></p>
             </div>
             <div class="comment_box fr">
-                <div style="float:right;color:rgba(221, 220, 220, 0.91); padding-left:5px; cursor:pointer;" data-bind="if:replies().length > 0">
+                <div style="float:right;color:rgba(221, 220, 220, 0.91); padding-right:5px; padding-top:5px; cursor:pointer;" data-bind="if:replies().length > 0">
                     <span class="expand glyphicon glyphicon-minus-sign"></span>
                 </div>
                 <p class="comment_paragraph" contenteditable="true" data-bind="html: content"></p>
-                <a href="#" class="reply" data-bind="click:replyNow">Reply</a> <span class="date" data-bind="text: timestamp.toLocaleTimeString()"></span>
+                <a href="#" class="reply" data-bind="click:replyNow">Reply</a> <span data-bind="if: replies().length > 0 "><span class="reply" data-bind="text:replies().length, attr:{title: ' total replies'}"></span></span> <span class="date" data-bind="text: timestamp.toLocaleTimeString()"></span>
 
                 <div data-bind="visible:doReply()">
                     <div class="input-group input-group-sm" style="max-width:350px;">
