@@ -74,7 +74,6 @@
     }
 
     #chat-list {
-        margin-top: 20px;
         padding-top: 20px;
         padding-right: 20px;
         border-top: 1px solid #D8D8D8;
@@ -86,13 +85,13 @@
 
 
     #userHeader {
-        background: #428bca;
-        color: #FFF;
+        background: #E7E7E7;
+        color: #9E9B9B;
         font-weight: bold;
-        height: 50px;
+        height: 75px;
         margin-top: 0px;
-        padding-top: 10px;
-        padding-left: 10px;
+        padding-top: 25px;
+        padding-left: 100px;
         padding-bottom: 10px;
     }
 
@@ -102,6 +101,17 @@
         min-height: 800px;
         overflow-y: auto;
     }
+
+    .user-box-name {
+        height: 47px;
+        width: 100%;
+        padding-top: 10px;
+        border-bottom: 1px solid #c3c3c3;
+    }
+
+        .user-box-name:hover {
+            background: rgba(213, 213, 213, 0.85);
+        }
 
     .padding-left-0 {
         padding-left: 0;
@@ -229,16 +239,17 @@
             <div id="users-list">
                 <div id="userHeader">Users</div>
                 <div data-bind="foreach: usersModel.contacts">
-                        <div class="col-md-2" style="height:47px; width:100%; padding-top:10px; border-bottom:1px solid #c3c3c3;" data-bind="text: username"></div>
+                    <div class="col-md-2 user-box-name" data-bind="text: username"></div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-10 padding-left-0 padding-right-0">
             <div id="compose" class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 padding-left-0 ">
+
                     <div class="row-fluid">
-                        <div class="col-md-10"><textarea id="compose-box" rows="2" cols="50" placeholder="Type your message here" data-bind="value:parentMessage"></textarea></div>
+                        <div class="col-md-10"><textarea id="compose-box" class="form-control" rows="2" cols="50" placeholder="Type your message here" data-bind="value:parentMessage"></textarea></div>
                         <div class="col-md-2"><button id="send-btn" type="button" data-bind="click:sendMessage" class="btn btn-large btn-primary">Send</button>   </div>
                     </div>
                 </div>
