@@ -19,10 +19,6 @@ namespace ChatR.Models
         /// </summary>
         public int ParentId { get; set; }
         /// <summary>
-        /// [0=parent,1=reply,2=innerreply]
-        /// </summary>
-        //public int NestLevel { get; set; }
-        /// <summary>
         /// UserId
         /// </summary>
         public string Username { get; set; }

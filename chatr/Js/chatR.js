@@ -10,22 +10,18 @@ var chatR = {};
 
 // Models
 
-chatR.chatMessage = function (id, parentid, nestlevel, sender, content, dateSent, chatMessageSender) {
+chatR.chatMessage = function (id, parentid, sender, content, dateSent, chatMessageSender) {
     var self = this;
     //alert(parentid);
     self.id = id;
-    self.parentId = parentid;
-    
+    self.parentId = parentid;    
     self.chatMessageSender = chatMessageSender;
 
     self.username = sender;
     self.content = content;
     if (dateSent != null) {
         self.timestamp = dateSent;
-    }
-    //self.replyId = id;
-    //self.replyParentId = parentid;
-    //self.replyNestLevel = nestlevel;
+    }    
 
     self.newMessage = ko.observable("");
     self.doReply = ko.observable(false);
@@ -68,8 +64,7 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
     self.parentMessage = ko.observable('');
 
     self.sendMessage = function () {
-        var msg = { parentId: 0, username: self.currentUser.username, content: self.parentMessage() };
-        //var msg = new chatR.chatMessage(id, parentid, nestlevel, currentUser.username);
+        var msg = { parentId: 0, username: self.currentUser.username, content: self.parentMessage() };        
         self.chatMessageSender(msg);
         self.parentMessage('');
     };

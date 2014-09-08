@@ -41,20 +41,6 @@ namespace ChatR.Controllers
                                                
                 return View("Chat", "_Layout", username);
             }            
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        //public object Chat(int? replyId, int? replyParentId, int? replyNestLevel)
-        //{
-        //    ReplyEntity reply = new ReplyEntity();
-        //    reply.ReplyId = replyId;
-        //    reply.ReplyParentId = replyParentId;
-        //    reply.ReplyNestLevel = replyNestLevel;
-
-        //    return Json(new { reply });
-        //}
+        }        
     }
 }

@@ -101,6 +101,7 @@
             <ul class="tree" data-bind="template: { name: 'message-template', foreach: messages,as: 'message' }"> </ul>
         </div>
     </div>
+    <div><button id="json-btn" type="button" class="btn btn-large btn-primary">Save jSon</button></div>	
 </div>
 
 <script type="text/javascript" src="@Url.Content("/signalr/hubs")"></script>
@@ -197,11 +198,8 @@
             date.setISO8601(message.Timestamp);
             //alert(message.Content);
             sessionStorage.setItem("Message", message);
-            chat.addMessage(new chatR.chatMessage(message.Id, message.ParentId, message.NestLevel, message.Username, message.Content, date, sendChatMsg));
-            $("#chat-list").scrollTo('max');
-
-            //var jsonData = ko.toJSON(message);
-            //alert(jsonData);
+            chat.addMessage(new chatR.chatMessage(message.Id, message.ParentId, message.Username, message.Content, date, sendChatMsg));
+            $("#chat-list").scrollTo('max');            
         }
 
         chatHub.client.leaves = function (userId, username, timestamp) {
@@ -227,7 +225,12 @@
                                     }).done(function () {
                                         chatHub.server.joined();
                                     });
-                    });
+        });
+
+        $('#json-btn').click(function () {
+            var jsonData = ko.toJSON(chat);
+            alert(jsonData);
+        });
     });
 
 </script>
