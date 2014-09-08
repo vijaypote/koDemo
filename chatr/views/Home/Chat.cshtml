@@ -70,7 +70,8 @@
         height: 800px;
         border: 1px solid rgba(228, 226, 226, 0.90);
         border-radius: 5px;
-        box-shadow: 7px 7px 16px -5px rgba(77,74,77,0.69);
+        /*box-shadow: 7px 7px 16px -5px rgba(77,74,77,0.69);*/
+        box-shadow: 0 10px 20px -6px #777;
     }
 
     #chat-list {
@@ -88,9 +89,9 @@
         background: #E7E7E7;
         color: #9E9B9B;
         font-weight: bold;
-        height: 75px;
+        height: 40px;
         margin-top: 0px;
-        padding-top: 25px;
+        padding-top: 9px;
         padding-left: 100px;
         padding-bottom: 10px;
     }
@@ -103,7 +104,7 @@
     }
 
     .user-box-name {
-        height: 47px;
+        height: 42px;
         width: 100%;
         padding-top: 10px;
         border-bottom: 1px solid #c3c3c3;
@@ -246,11 +247,18 @@
 
         <div class="col-md-10 padding-left-0 padding-right-0">
             <div id="compose" class="row">
-                <div class="col-md-12 padding-left-0 ">
+                <div class="col-md-12">
 
                     <div class="row-fluid">
-                        <div class="col-md-10"><textarea id="compose-box" class="form-control" rows="2" cols="50" placeholder="Type your message here" data-bind="value:parentMessage"></textarea></div>
-                        <div class="col-md-2"><button id="send-btn" type="button" data-bind="click:sendMessage" class="btn btn-large btn-primary">Send</button>   </div>
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control input-lg" placeholder="Type your message here" data-bind="value:parentMessage" />
+                            <span class="input-group-btn">
+                                <button type="button" data-bind="click:sendMessage" class="btn btn-large">Send</button>
+                            </span>
+                        </div><!-- /input-group -->
+
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">  </div>
                     </div>
                 </div>
             </div>
