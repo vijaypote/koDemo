@@ -114,6 +114,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\1410161413_toggle_minus.gif" />
     <Content Include="Content\images\bubble.png" />
     <Content Include="Content\images\comment-page-icon.png" />
     <Content Include="Content\images\user.gif" />
