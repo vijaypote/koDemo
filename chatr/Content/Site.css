@@ -48,11 +48,7 @@ h2
 
 
 
-#myContainer 
-{   
-    margin-top: 40px;
-        
-}
+
 
 
 #form-container 
@@ -100,15 +96,7 @@ input, button
 
 
 /* Chat specific style */
-#chat-list 
-{    
-    position:relative;
-    height: 600px;
-    overflow-y:auto;
-    background-color: White;	    
-    -moz-border-radius: 2px;
-    border-radius: 2px;     
-}
+
 
 
 .chat-listitem-username 
