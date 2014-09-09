@@ -3,15 +3,26 @@
 }
 <a href="https://github.com/vgheri/ChatR"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
-{    
-    <div id="form-container">       
-            <h1>ChatR</h1>
-            <span id="description">A simple chat application built with <a href="http://signalr.net/" title="SignalR" target="_blank">SignalR</a></span>
-            <div id="input-box">
-                <label for="username">Choose a user name to start</label>
-                <input type="text" id="username" class="input-medium search-query" placeholder="Type here..." name="username" autofocus="autofocus" 
-                    maxlength="15" required="required" />
-                <button type="submit" class="btn btn-large btn-primary">Let's chat!</button>               
-            </div>
+{
+    <div id="form-container">
+        <h1>ChatR</h1>
+        <span id="description">A simple chat application built with <a href="http://signalr.net/" title="SignalR" target="_blank">SignalR</a></span>
+
+
+        <div class="col-lg-8">
+            <label for="username">Choose a user name to start</label>
+            <div class="input-group">
+                <input type="text" id="username" class="form-control input-lg" placeholder="Type here..." name="username" autofocus="autofocus"
+                       maxlength="15" required="required" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary btn-lg" type="submit">Let's chat!</button>
+                </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+        <div id="input-box">
+
+
+        </div>
     </div>
 }
