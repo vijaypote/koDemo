@@ -136,6 +136,7 @@
         width: 700px;
     }
 
+
         .chatR_clean_comment .avatar_box {
             float: left;
             width: 80px;
@@ -165,6 +166,10 @@
             position: relative;
             margin-bottom: 20px;
         }
+
+            .chatR_clean_comment .comment_box:hover {
+                box-shadow: 0 10px 20px -6px #777;
+            }
 
             .chatR_clean_comment .comment_box:before {
                 content: '';
@@ -251,7 +256,7 @@
 
                     <div class="row-fluid">
                         <div class="input-group input-group-lg">
-                            <input type="text" class="form-control input-lg" placeholder="Type your message here" data-bind="value:parentMessage" />
+                            <input type="text" class="form-control input-lg" placeholder="Type your message here" data-bind="value:parentMessage, valueUpdate: 'input', executeOnEnter: sendMessage" />
                             <span class="input-group-btn">
                                 <button type="button" data-bind="click:sendMessage" class="btn btn-large">Send</button>
                             </span>
@@ -292,8 +297,8 @@
                 <a href="#" class="reply" data-bind="click:replyNow">Reply</a> <span data-bind="if: replies().length > 0 "><span class="reply" data-bind="text:replies().length, attr:{title: ' total replies'}"></span></span> <span class="date" data-bind="text: timestamp.toLocaleTimeString()"></span>
 
                 <div data-bind="visible:doReply()">
-                    <div class="input-group input-group-sm" style="max-width:350px;">
-                        <input type="text" class="form-control" id="newMessage" data-bind="value:newMessage" placeholder="Reply here..." />
+                    <div class="input-group input-group-sm" style="max-width:350px;padding-left: 10px;">
+                        <input type="text" class="form-control" id="newMessage" data-bind="value:newMessage, valueUpdate: 'input', executeOnEnter: replyToMessage" placeholder="Reply here..." />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default btn-xs" data-bind="click: replyToMessage" title="Send">
                                 <span class="glyphicon glyphicon-ok-circle"></span>
@@ -311,6 +316,20 @@
 </script>
 
 <script type="text/javascript">
+
+    ko.bindingHandlers.executeOnEnter = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var allBindings = allBindingsAccessor();
+            $(element).keypress(function (event) {
+                var keyCode = (event.which ? event.which : event.keyCode);
+                if (keyCode === 13) {
+                    allBindings.executeOnEnter.call(viewModel);
+                    return false;
+                }
+                return true;
+            });
+        }
+    };
 
 
     Date.prototype.setISO8601 = function (dString) {
