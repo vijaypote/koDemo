@@ -87,7 +87,7 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
 
         //console.log(message.replies().length);
         //console.log(message);
-
+        
         if (parentId == message.id) {
             return message;
         }
@@ -112,80 +112,48 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
         return null;
     };
 
+
+    self.loadMessages = function (message) {
+        console.log(message);
+        var date = new Date();
+        date.setISO8601(message.timestamp);
+        self.addMessage(new chatR.chatMessage(message.id, message.parentId, message.username, message.content, date, self.chatMessageSender));
+        //recursive loop for replies.
+        if (message.replies && message.replies.length > 0) {
+            for (var k = 0; k < message.replies.length; k++) {
+                self.loadMessages(message.replies[k]);
+            }
+        }
+        return true;
+    };
+
     self.usersModel = usersModel;
+
+
+   
+    
+    // get all message count
+    //var allMessage = json[0].messages;
+    //var allMessageCnt = json[0].messages.length;
 
 
     // load data in begining
     var fakeData = '[{"messages": [{"id": 1,"parentId": 0,"username": "vap","content": "Who are you ?","timestamp": "2014-09-12T06:06:41.848Z","newMessage": "","doReply": false,"replies": [{"id": 2,"parentId": 1,"username": "vap","content": "I am Vijay","timestamp": "2014-09-12T06:06:51.591Z","newMessage": "","doReply": false,"replies": [{"id": 7,"parentId": 2,"username": "vap","content": "I am vijay pote","timestamp": "2014-09-12T06:08:20.920Z","newMessage": "","doReply": false,"replies": []}]},{"id": 3,"parentId": 1,"username": "vap","content": "I am Shetty","timestamp": "2014-09-12T06:07:11.836Z","newMessage": "","doReply": false,"replies": [{"id": 8,"parentId": 3,"username": "vap","content": "I am prashant shetty","timestamp": "2014-09-12T06:08:43.543Z","newMessage": "","doReply": false,"replies": []}]},{"id": 4,"parentId": 1,"username": "vap","content": "I am Jayesh","timestamp": "2014-09-12T06:07:32.438Z","newMessage": "","doReply": false,"replies": [{"id": 9,"parentId": 4,"username": "vap","content": "i am jayesh yeragi","timestamp": "2014-09-12T06:08:54.479Z","newMessage": "","doReply": false,"replies": []},{"id": 10,"parentId": 4,"username": "vap","content": "okay got it","timestamp": "2014-09-12T06:09:10.995Z","newMessage": "","doReply": false,"replies": []}]}]},{"id": 5,"parentId": 0,"username": "vap","content": "Where are you ?","timestamp": "2014-09-12T06:07:58.861Z","newMessage": "","doReply": false,"replies": [{"id": 6,"parentId": 5,"username": "vap","content": "I am right here","timestamp": "2014-09-12T06:08:07.020Z","newMessage": "","doReply": false,"replies": []}]}],"currentUser": {"username": "vap"},"parentMessage": "","usersModel": {"contacts": [{"username": "vap","id": "2ce3aa2b-629b-4bc2-bace-ef6931dfc2eb"}]}}]';
 
-    //Recursive loop
-    //iterate(fakeData);
-
     var json = $.parseJSON(fakeData);
+    console.log(json);
 
-    // get all message count
-    var allMessage = json[0].messages;
-    var allMessageCnt = json[0].messages.length;
     var loadCurrentUser = json[0].currentUser;
-
     self.currentUser = loadCurrentUser;
-    var messageReplies = null;
-    var messageRepliesCnt = null;
-    var messageInnerRepliesCnt = null;
 
+
+    //iterate(fakeData);
     $.each(json, function (idx, obj) {
-        for (i = 0, l = allMessageCnt; i < l; i++) {
-            //alert(json[idx].messages[i].id);
-            //alert(json[idx].messages[i].parentId);
-            //alert(json[idx].messages[i].username);
-            //alert(json[idx].messages[i].content);
-            //alert(json[idx].messages[i].timestamp);
-
-            //self.messages.id = json[idx].messages[i].id;
-            //self.messages.parentId = json[idx].messages[i].parentId;
-            //self.messages.username = json[idx].messages[i].username;
-            //self.messages.content = json[idx].messages[i].content;
-            //self.messages.timestamp = json[idx].messages[i].timestamp;
-
-            self.addMessage(new chatR.chatMessage(json[idx].messages[i].id, json[idx].messages[i].parentId, json[idx].messages[i].username, json[idx].messages[i].content, json[idx].messages[i].timestamp, self.chatMessageSender));
-
-
-            //messageReplies = json[idx].messages[i].replies[i];
-            messageNextRepliesCnt = json[idx].messages[i].replies.length;
-
-            for (j = 0, m = messageNextRepliesCnt; j < m; j++) {
-                //alert(json[idx].messages[i].replies[j].id);
-                //alert(json[idx].messages[i].replies[j].parentId);
-                //alert(json[idx].messages[i].replies[j].username);
-                //alert(json[idx].messages[i].replies[j].content);
-                //alert(json[idx].messages[i].replies[j].timestamp);                
-
-
-                self.addReply(new chatR.chatMessage(json[idx].messages[i].replies[j].id, json[idx].messages[i].replies[j].parentId, json[idx].messages[i].replies[j].username, json[idx].messages[i].replies[j].content, json[idx].messages[i].replies[j].timestamp, self.chatMessageSender));
-
-                messageInnerRepliesCnt = json[idx].messages[i].replies[j].replies.length;
-
-                for (k = 0, n = messageInnerRepliesCnt; k < n; k++) {
-                    //alert(json[idx].messages[i].replies[j].replies[k].id);
-                    //alert(json[idx].messages[i].replies[j].replies[k].parentId);
-                    //alert(json[idx].messages[i].replies[j].replies[k].username);
-                    //alert(json[idx].messages[i].replies[j].replies[k].content);
-                    //alert(json[idx].messages[i].replies[j].replies[k].timestamp);
-
-                    //messageInnerRepliesCnt = json[idx].messages[i].replies[j].replies.length;
-
-                }
-            }
-            //alert("---------------------------------------------------------------------------------");
-        }
-        //alert(json[idx].messages[idx].id);
+        $.each(obj.messages, function (mIndex, message) {
+            //new function added to load the messages
+            self.loadMessages(message);
+        });
     });
-
-    //var allContacts = obj[0].usersModel.contacts;
-
-    //self.usersModel = allContacts[0];
-
-
 
 
     return self;
