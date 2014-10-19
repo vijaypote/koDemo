@@ -66,7 +66,8 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
 
     self.addMessage = function (newMessage) {
         if (newMessage.parentId == undefined || newMessage.parentId == 0) {
-            self.messages.push(newMessage);//new Date(message.Timestamp)));
+            self.messages.InsertAtTop(newMessage);
+            //self.messages.push(newMessage);//new Date(message.Timestamp)));
         } else {
             self.addReply(newMessage);
         }
@@ -78,6 +79,11 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
             var parentMessage = self.findParentMessage(newMessage.parentId, self.messages()[i]);
             if (parentMessage != null) {
                 parentMessage.replies.push(newMessage);
+
+                console.log(parentMessage.replies());
+                var currentThred = self.messages()[i];
+                self.messages.remove(currentThred);
+                self.messages.InsertAtTop(currentThred);
                 break;
             }
         }
@@ -159,22 +165,6 @@ chatR.chatViewModel = function (usersModel, currentUser, chatMessageSender) {
     return self;
 }
 
-function iterate(obj) {
-    for (var key in obj) { // iterate, `key` is the property key
-        var elem = obj[key]; // `obj[key]` is the value
-
-        if (key === "content") { // found "text" property
-            alert(elem)
-        }
-
-        if (typeof elem === "object") { // is an object (plain object or array),
-            // so contains children
-            iterate(elem); // call recursively
-        }
-    }
-}
-
-
 chatR.connectedUsersViewModel = function () {
     var self = this;
     self.contacts = ko.observableArray();
@@ -185,5 +175,9 @@ chatR.connectedUsersViewModel = function () {
         });
     }
     return self;
+}
+
+ko.observableArray.fn.InsertAtTop = function (value) {
+    this.splice(0, 0, value);
 }
 
